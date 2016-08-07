@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MvcGeekAcademy.Models.student>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        @using (Html.BeginForm("Index", "students", FormMethod.Get)) // this is where html form goes
+        {
+            <table class="table ">
+                <tr>
+                    <td>@Html.Label("Search By Student's name")</td>
+                    <td>@Html.TextBox("search", null, new { @class = "form-control" })</td>
+                    <td>
+                        <input type="submit" value="submit" class="form-control btn btn-primary" />
+                    </td>
+                </tr>
+
+            </table>
+        }
+    </div>
+</div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Full Name", "Index", new
+           {
+               sortByName = Request.QueryString["sortByName"] == "asc" ? "desc" : "asc"
+           })
+                @*@Html.DisplayNameFor(model => model.FullNAme)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinalMarks)
+            </th>
+            <th>
+                @Html.DisplayName("Grade")
+            </th>
+            <th></th>
+        </tr>
+
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullNAme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinalMarks)
+                </td>
+                <td>
+                    @if (item.FinalMarks>= 50)
+                    {
+                        <img src="~/Content/Images/green.png" width="30px" />
+                    }
+                    else if(item.FinalMarks>=35 &&item.FinalMarks<50)
+                    {                                                                                             
+                        <img src="~/Content/Images/orange.png" width="30px" />
+
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/red.png" width="30px" />
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StudentId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.StudentId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.StudentId })
+                </td>
+            </tr>
+        }
+
+    </table>
